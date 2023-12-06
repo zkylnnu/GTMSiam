@@ -1,7 +1,7 @@
 import numpy as np
 import scipy.io as sio
 from sklearn import preprocessing
-import random
+import random   
 
 def standartsize(X):
     newX = np.reshape(X, (-1, X.shape[2]))
