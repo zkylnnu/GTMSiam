@@ -18,7 +18,6 @@ device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 selection_rules = ["rect 5"]
 def get_args():
     parser = argparse.ArgumentParser()
-    # 添加参数
     parser.add_argument('--n_epochs', type=int, default=150, help='n_epochs')
     parser.add_argument("--max_depth", type=int, default=1, help="max_depth")
     parser.add_argument('--batch_size', type=int, default=128, help="num_batches")
