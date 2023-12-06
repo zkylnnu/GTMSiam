@@ -75,11 +75,6 @@ def test(X1, X2, test_coords, y_test, net, arg, y):
         with torch.no_grad():
             X_batch1 = torch.from_numpy(X_batch1.astype(np.float32)).to(device)
             X_batch2 = torch.from_numpy(X_batch2.astype(np.float32)).to(device)
-            #A = torch.from_numpy(A.astype(np.float32)).to(device)
-            #adj = torch.from_numpy(adj.astype(np.float32)).to(device)
-            #X_test_slic = torch.from_numpy(X_test_slic.astype(np.float32)).to(device)
-            # y_batch = GT_To_One_Hot(y_batch)
-            # y_batch = np.array(y_batch)
             y_batch = torch.from_numpy(y_batch.astype(np.float32)).to(device)
             output = net(X_batch1, X_batch2)
             logits = torch.argmax(output, dim=1)
@@ -91,8 +86,8 @@ def test(X1, X2, test_coords, y_test, net, arg, y):
             locpu = logits.detach().cpu()
             loo = 1 - locpu
             for j in range(len(loo)):
-                a = order[j][0]  # 第一个测试patch的纵坐标
-                b = order[j][1]  # 第一个测试patch的横坐标
+                a = order[j][0]  
+                b = order[j][1]  
                 pred[a][b] = loo[j]
     Draw_Classification_Map(pred)
     total_num = total_tp + total_tn + total_fp + total_fn
@@ -100,8 +95,6 @@ def test(X1, X2, test_coords, y_test, net, arg, y):
     test_OA = (total_tp + total_tn) / total_num
     suanzi1 = (total_tp +total_fp)/total_num * (total_tp+total_fn)/total_num
     suanzi2 = (total_tn + total_fp)/total_num * (total_tn + total_fn)/total_num
-    # PRE1 = (total_tp +total_fp) * (total_tp+total_fn) /total_num2
-    # PRE2 = (total_tn + total_fp) * (total_tn + total_fn)/ total_num2
     PRE = suanzi1 + suanzi2
     test_kappa = (test_OA - PRE)/(1-PRE)
     print(total_tp,total_tn,total_fp,total_fn)
