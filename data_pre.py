@@ -67,16 +67,16 @@ def select_rect_no_pad(hsi1, hsi2, target_coords, pitch_size = 5):
                                                    :target_coords[i,1] + margin + 1] for i in range(len(target_coords))]  # 切patch  列表 （11,11，dims）
     pitches2 = [hsi2[target_coords[i, 0] - margin:target_coords[i, 0] + margin + 1, target_coords[i, 1] - margin
                                                                                     :target_coords[i, 1] + margin + 1]
-                for i in range(len(target_coords))]  # 切patch  列表 （11,11，dims）
+                for i in range(len(target_coords))]  
 
 
-    pitches1 = [np.expand_dims(pitch, axis=0) for pitch in pitches1]    # 添加维度 （1,11,11，dims）
-    pitches2 = [np.expand_dims(pitch, axis=0) for pitch in pitches2]  # 添加维度 （1,11,11，dims）
-    return np.concatenate(pitches1, axis=0), np.concatenate(pitches2, axis=0)    #  连接pitchs (训练/测试样本个数，11,11，dims)
+    pitches1 = [np.expand_dims(pitch, axis=0) for pitch in pitches1]    
+    pitches2 = [np.expand_dims(pitch, axis=0) for pitch in pitches2]  
+    return np.concatenate(pitches1, axis=0), np.concatenate(pitches2, axis=0)    
 
-def Grammar(img1, img2, tgt_coords, method = "rect 5"):  # 高光谱数据  训练/测试集标签
+def Grammar(img1, img2, tgt_coords, method = "rect 5"):  
     try:
-        region_type , param = method.split()   # 将method内容拆分两部分
+        region_type , param = method.split()  
         param = int(param)
     except:
         region_type = method
@@ -140,15 +140,15 @@ class Data_Generator(object):
     def __init__(self, hsi, y, use_coords, batch_size = 24,
                  selection_rules = None, shuffle = True,
                  till_end = False, max_len = 121):
-        self.hsi = hsi   # 高光谱图像
-        self.y = y       # 对应标签
-        self.use_coords = use_coords   # 对应坐标
+        self.hsi = hsi  
+        self.y = y       
+        self.use_coords = use_coords 
         self.batch_size = batch_size
-        self.selection_rules = selection_rules  #  选择标准  rect  11
+        self.selection_rules = selection_rules  
         self.shuffle = shuffle
         self.till_end = till_end
-        self.max_len = max_len  # 空间维像素个数
-        self.num_batches = len(self.use_coords) // self.batch_size   # batch个数= patch总数/batchsize
+        self.max_len = max_len  
+        self.num_batches = len(self.use_coords) // self.batch_size  
         self.on_epoch_end()
 
     def on_epoch_end(self):
